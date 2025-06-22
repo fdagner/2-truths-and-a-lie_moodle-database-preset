@@ -65,7 +65,19 @@ function prüfen(frageId, selected, clickedButton) {
         clickedButton.style.color = "white";
     }
 }
+</script>
 
+<script>
+const select = document.getElementById("pref_sortby");
+const options = select.querySelectorAll("option");
 
-
+options.forEach(option => {
+  if (option.text.trim() === "Loesung") {
+    if (option.selected) {
+      // Optional: Anderen Standardwert setzen
+      select.selectedIndex = 0;
+    }
+    option.remove();
+  }
+});
 </script>
