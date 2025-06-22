@@ -1,0 +1,72 @@
+<h2>Welche Aussage ist gelogen?</h2> 
+<hr>
+##actionsmenu##
+<h3>Eintrag von ##user##</h3>
+<div class="preset_truth">
+  <div class="antwort"><button type="button" onclick="prüfen('A', this)">A) [[Option1]]</button></div>
+  <div class="antwort"><button type="button" onclick="prüfen('B', this)">B) [[Option2]]</button></div>
+  <div class="antwort"><button type="button" onclick="prüfen('C', this)">C) [[Option3]]</button></div>
+
+  <div id="ergebnis" class="ergebnis"></div>
+</div>
+
+<script>
+function decodeSolution(code) {
+    if (!code) return "?";
+    const [produkt, faktor] = code.split("-");
+    const p = parseInt(produkt);
+    const f = parseInt(faktor);
+    if (!p || !f) return "?";
+
+    const result = p / f;
+
+    if (result === 3) return "A";
+    if (result === 7) return "B";
+    if (result === 11) return "C";
+    return "?";
+}
+
+const verschlüsselt = "[[Codiert]]";
+const richtigeAntwort = decodeSolution(verschlüsselt);
+
+let beantwortet = false;
+
+function prüfen(selected, btn) {
+    if (beantwortet) return; // Nur einmal prüfen erlauben
+    beantwortet = true;
+
+    const ergebnisDiv = document.getElementById('ergebnis');
+    if (richtigeAntwort === "?") {
+        ergebnisDiv.textContent = "Keine gültige Lösung hinterlegt.";
+        ergebnisDiv.style.color = "orange";
+        return;
+    }
+
+    // Alle Buttons zurücksetzen (keine Farbe)
+    const buttons = document.querySelectorAll('.preset_truth button');
+    buttons.forEach(button => {
+        button.style.backgroundColor = "";
+        button.style.color = "";
+        button.disabled = true; // Buttons deaktivieren nach Antwort
+    });
+
+    // Richtigen Button grün markieren
+    const richtigerButton = Array.from(buttons).find(b => b.getAttribute('onclick').includes(`prüfen('${richtigeAntwort}'`));
+    if (richtigerButton) {
+        richtigerButton.style.backgroundColor = "green";
+        richtigerButton.style.color = "white";
+    }
+
+    if (selected === richtigeAntwort) {
+        ergebnisDiv.textContent = `Richtig! ${richtigeAntwort} ist gelogen.`;
+        ergebnisDiv.style.color = "green";
+        btn.style.backgroundColor = "green";
+        btn.style.color = "white";
+    } else {
+        ergebnisDiv.textContent = `Falsch! Gelogen ist ${richtigeAntwort}.`;
+        ergebnisDiv.style.color = "purple";
+        btn.style.backgroundColor = "purple";
+        btn.style.color = "white";
+    }
+}
+</script>

@@ -1,0 +1,48 @@
+<div class="preset_truth"><div class="mb-3 pt-3">
+  <div class="fw-bold">Aussage A:</div>
+  [[Option1]]
+</div>
+
+<div class="mb-3 pt-3">
+  <div class="fw-bold">Aussage B:</div>
+  [[Option2]]
+</div>
+
+<div class="mb-3 pt-3">
+  <div class="fw-bold">Aussage C:</div>
+  [[Option3]]
+</div>
+
+<div class="mb-3 pt-3">
+  <div class="fw-bold">Welche Aussage ist gelogen?</div>
+  [[Loesung]]
+</div>
+
+<div style="display:none;">
+  [[Codiert]]
+</div>
+</div>
+<script>
+  function encodeSolution(value) {
+    const geheimformel = { A: 3, B: 7, C: 11 };
+    const zufall = Math.floor(Math.random() * 90) + 10;
+    const code = zufall * geheimformel[value];
+    return `${code}-${zufall}`;
+  }
+
+  function updateLuege() {
+    const loesung = document.querySelector('[id="[[Loesung#id]]"]');
+    const luege = document.querySelector('[id="[[Codiert#id]]"]');
+    if (loesung && luege) {
+      luege.value = encodeSolution(loesung.value);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const loesung = document.querySelector('[id="[[Loesung#id]]"]');
+    if (loesung) {
+      loesung.addEventListener('change', updateLuege);
+      updateLuege(); // Initial beim Laden
+    }
+  });
+</script>

@@ -1,0 +1,33 @@
+.preset_truth button,
+.preset_truth select {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1rem;
+  padding: 0.5em 1.2em;
+  margin: 0.3em 0;
+  border: 2px solid #0078D7; /* schönes Blau */
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #0078D7;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  display: inline-block;
+  min-width: 120px;
+  text-align: center;
+}
+
+.preset_truth select {
+  padding-right: 2.5em;
+}
+
+
+.preset_truth .ergebnis {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-top: 1em;
+  min-height: 1.5em;
+}
+
+.action-menu {
+float: right;
+}

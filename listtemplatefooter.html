@@ -1,0 +1,71 @@
+</div>
+<script>
+const beantworteteFragen = {};
+
+function decodeSolution(code) {
+    if (!code) return "?";
+    const [produkt, faktor] = code.split("-");
+    const p = parseInt(produkt);
+    const f = parseInt(faktor);
+    if (!p || !f) return "?";
+
+    const result = p / f;
+
+    if (result === 3) return "A";
+    if (result === 7) return "B";
+    if (result === 11) return "C";
+    return "?";
+}
+
+function prüfen(frageId, selected, clickedButton) {
+    if (beantworteteFragen[frageId]) {
+        // Frage wurde schon beantwortet, erneutes Klicken ignorieren
+        return;
+    }
+    beantworteteFragen[frageId] = true; // Frage als beantwortet markieren
+
+    const container = document.getElementById('frage' + frageId);
+    if (!container) return;
+
+    const verschlüsselt = container.getAttribute('data-code').trim();
+    const richtigeAntwort = decodeSolution(verschlüsselt);
+
+    const ergebnisDiv = document.getElementById('ergebnis_' + frageId);
+    if (!ergebnisDiv) return;
+
+    // Alle Buttons zurücksetzen (keine Farbe)
+    const buttons = container.querySelectorAll('button[data-choice]');
+    buttons.forEach(btn => {
+        btn.style.backgroundColor = "";
+        btn.style.color = "";
+        btn.disabled = true;  // Buttons nach Antwort deaktivieren
+    });
+
+    // Richtigen Button grün markieren
+    const richtigerButton = container.querySelector(`button[data-choice="${richtigeAntwort}"]`);
+    if (richtigerButton) {
+        richtigerButton.style.backgroundColor = "green";
+        richtigerButton.style.color = "white";
+    }
+
+    // Ergebnis anzeigen
+    if (selected === richtigeAntwort) {
+        ergebnisDiv.textContent = `Richtig! ${richtigeAntwort} ist gelogen.`;
+        ergebnisDiv.style.color = "green";
+
+        // Gewählten Button grün (ist ja richtig)
+        clickedButton.style.backgroundColor = "green";
+        clickedButton.style.color = "white";
+    } else {
+        ergebnisDiv.textContent = `Falsch. Gelogen ist ${richtigeAntwort}.`;
+        ergebnisDiv.style.color = "purple";
+
+        // Gewählten Button rot markieren
+        clickedButton.style.backgroundColor = "purple";
+        clickedButton.style.color = "white";
+    }
+}
+
+
+
+</script>
